@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int numbers[];
+int numbers[2048];
 
 void leerArchivo(){
   FILE * fp;
@@ -27,10 +27,14 @@ void leerArchivo(){
 }
 
 void ordenar(){
-   int i, j;
-   for(i = 0; i < 2048; i++){
-      for(j = i+1; < 2047; j++){
-      
+   int i, j, aux;
+   for(i = 0; i < 2047; i++){
+      for(j = i+1;j < 2048; j++){
+      	if(numbers[i] > numbers[j]){
+	   aux = numbers[i];
+	   numbers[i] = numbers[j];
+	   numbers[j] = aux;
+	}
       }
    }
 }
