@@ -7,15 +7,15 @@ void leerArchivo(){
   FILE * fp;
   char * line = NULL;
   size_t len = 0;
-  ssize_t read;
+  int number;
 
-  fp = fopen("/etc/motd", "r")
+  fp = fopen("numbers.txt", "r");
   if (fp == NULL)
      exit(EXIT_FAILURE);
      
-   while ((read = getline(&line, &len, fp)) != -1) {
-      printf("Retrieved line of length %zu:\n", read);
-      printf("%s", line);
+   while (getline(&line, &len, fp) != -1) {
+      number = atoi(line);
+      printf("%i", number);
    }
 
    fclose(fp);
