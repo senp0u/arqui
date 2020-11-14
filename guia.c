@@ -23,7 +23,6 @@ void leerArchivo(){
    fclose(fp);
    if (line)
       free(line);
-   exit(EXIT_SUCCESS);
 }
 
 void ordenar(){
@@ -42,4 +41,5 @@ void ordenar(){
 int main(void){
     leerArchivo();
     ordenar();
+    exit(EXIT_SUCCESS);
 }

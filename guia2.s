@@ -37,8 +37,8 @@ leerArchivo:
 	str	r3, [fp, #-24]
 	mov	r3, #0
 	str	r3, [fp, #-28]
-	ldr	r1, .L6
-	ldr	r0, .L6+4
+	ldr	r1, .L7
+	ldr	r0, .L7+4
 	bl	fopen
 	str	r0, [fp, #-20]
 	ldr	r3, [fp, #-20]
@@ -63,7 +63,7 @@ leerArchivo:
 	mov	r0, r2
 	bl	atoi
 	mov	r2, r0
-	ldr	r3, .L6+8
+	ldr	r3, .L7+8
 	str	r2, [r3, r4, lsl #2]
 .L3:
 	ldr	r3, [fp, #-16]
@@ -73,16 +73,18 @@ leerArchivo:
 	bl	fclose
 	ldr	r3, [fp, #-24]
 	cmp	r3, #0
-	beq	.L5
+	beq	.L6
 	ldr	r3, [fp, #-24]
 	mov	r0, r3
 	bl	free
-.L5:
-	mov	r0, #0
-	bl	exit
-.L7:
-	.align	2
 .L6:
+	nop
+	sub	sp, fp, #8
+	@ sp needed
+	pop	{r4, fp, pc}
+.L8:
+	.align	2
+.L7:
 	.word	.LC0
 	.word	.LC1
 	.word	numbers
@@ -102,59 +104,59 @@ ordenar:
 	sub	sp, sp, #20
 	mov	r3, #0
 	str	r3, [fp, #-8]
-	b	.L9
-.L13:
+	b	.L10
+.L14:
 	ldr	r3, [fp, #-8]
 	add	r3, r3, #1
 	str	r3, [fp, #-12]
-	b	.L10
-.L12:
-	ldr	r2, .L14
+	b	.L11
+.L13:
+	ldr	r2, .L15
 	ldr	r3, [fp, #-8]
 	ldr	r2, [r2, r3, lsl #2]
-	ldr	r1, .L14
+	ldr	r1, .L15
 	ldr	r3, [fp, #-12]
 	ldr	r3, [r1, r3, lsl #2]
 	cmp	r2, r3
-	ble	.L11
-	ldr	r2, .L14
+	ble	.L12
+	ldr	r2, .L15
 	ldr	r3, [fp, #-8]
 	ldr	r3, [r2, r3, lsl #2]
 	str	r3, [fp, #-16]
-	ldr	r2, .L14
+	ldr	r2, .L15
 	ldr	r3, [fp, #-12]
 	ldr	r2, [r2, r3, lsl #2]
-	ldr	r1, .L14
+	ldr	r1, .L15
 	ldr	r3, [fp, #-8]
 	str	r2, [r1, r3, lsl #2]
-	ldr	r1, .L14
+	ldr	r1, .L15
 	ldr	r3, [fp, #-12]
 	ldr	r2, [fp, #-16]
 	str	r2, [r1, r3, lsl #2]
-.L11:
+.L12:
 	ldr	r3, [fp, #-12]
 	add	r3, r3, #1
 	str	r3, [fp, #-12]
-.L10:
+.L11:
 	ldr	r3, [fp, #-12]
 	cmp	r3, #2048
-	blt	.L12
+	blt	.L13
 	ldr	r3, [fp, #-8]
 	add	r3, r3, #1
 	str	r3, [fp, #-8]
-.L9:
+.L10:
 	ldr	r3, [fp, #-8]
-	ldr	r2, .L14+4
+	ldr	r2, .L15+4
 	cmp	r3, r2
-	ble	.L13
+	ble	.L14
 	nop
 	add	sp, fp, #0
 	@ sp needed
 	ldr	fp, [sp], #4
 	bx	lr
-.L15:
+.L16:
 	.align	2
-.L14:
+.L15:
 	.word	numbers
 	.word	2046
 	.size	ordenar, .-ordenar
@@ -171,9 +173,8 @@ main:
 	add	fp, sp, #4
 	bl	leerArchivo
 	bl	ordenar
-	mov	r3, #0
-	mov	r0, r3
-	pop	{fp, pc}
+	mov	r0, #0
+	bl	exit
 	.size	main, .-main
 	.ident	"GCC: (Raspbian 8.3.0-6+rpi1) 8.3.0"
 	.section	.note.GNU-stack,"",%progbits
