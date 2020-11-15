@@ -26,6 +26,12 @@ void leerArchivo(){
 }
 
 void ordenar(){
+   FILE * fp;
+   fp = fopen("numbers.txt", "w");
+   
+   if (fp == NULL)
+      exit(EXIT_FAILURE);
+
    int i, j, aux;
    for(i = 0; i < 2047; i++){
       for(j = i+1;j < 2048; j++){
@@ -35,6 +41,7 @@ void ordenar(){
 	   numbers[j] = aux;
 	}
       }
+      fwrite(&numbers[i],4,i+1,fp);
    }
 }
 
