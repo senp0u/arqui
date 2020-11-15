@@ -26,14 +26,8 @@ void leerArchivo(){
 }
 
 void ordenar(){
-   FILE * fp;
-   fp = fopen("numbers.txt", "w");
-   
-   if (fp == NULL)
-      exit(EXIT_FAILURE);
-
    int i, j, aux;
-   for(i = 0; i < 2047; i++){
+   for(i = 0; i < 2048; i++){
       for(j = i+1;j < 2048; j++){
       	if(numbers[i] > numbers[j]){
 	   aux = numbers[i];
@@ -41,12 +35,13 @@ void ordenar(){
 	   numbers[j] = aux;
 	}
       }
-      fwrite(&numbers[i],4,i+1,fp);
+      printf("%d\n", numbers[i]);
    }
 }
 
 int main(void){
     leerArchivo();
     ordenar();
-    exit(EXIT_SUCCESS);
+
+    return 0;
 }
