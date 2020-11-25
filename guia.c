@@ -8,7 +8,7 @@ void leerArchivo(){
   FILE * fp;
   char * line = NULL;
   size_t len = 0;
-  int number;
+
 
   fp = fopen("numbers.txt", "r");
   if (fp == NULL)
