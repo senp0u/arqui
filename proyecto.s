@@ -40,19 +40,16 @@ leerArchivo:
 
 .L4:
 	sub	r1, fp, #28
-	sub	r3, fp, #24
+	sub	r0, fp, #24
 	ldr	r2, [fp, #-20]
-	mov	r0, r3
 	bl	getline
-	ldr	r2, [fp, #-24]
+	ldr	r0, [fp, #-24]	@Carga la linea leida en el archivo
+	bl	atoi		@Cobierte el string a numero
 	ldr	r4, [fp, #-16]
-	add	r3, r4, #1
+	add	r3, r4, #1	@Incrementa el contador
 	str	r3, [fp, #-16]
-	mov	r0, r2
-	bl	atoi
-	mov	r2, r0
-	ldr	r3, .L7+8
-	str	r2, [r3, r4, lsl #2]
+	ldr	r3, .L7+8		@LLama al arreglo de numeros
+	str	r0, [r3, r4, lsl #2]	@Guarda el numero leido en el arreglo
 
 .L3:
 	ldr	r3, [fp, #-16]
@@ -62,9 +59,8 @@ leerArchivo:
 	bl	fclose
 	ldr	r3, [fp, #-24]
 	cmp	r3, #0
-	beq	.L6
-	ldr	r3, [fp, #-24]
-	mov	r0, r3
+	beq	.L6		@Libera el puntero a la linea
+	ldr	r0, [fp, #-24]
 	bl	free
 
 .L6:
@@ -72,9 +68,6 @@ leerArchivo:
 	sub	sp, fp, #8
 	@ sp needed
 	pop	{r4, fp, pc}
-
-.L8:
-	.align	2
 
 .L7:
 	.word	.LC0
