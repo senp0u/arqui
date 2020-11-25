@@ -66,7 +66,6 @@ leerArchivo:
 .L6:
 	nop
 	sub	sp, fp, #8
-	@ sp needed
 	pop	{r4, fp, pc}
 
 .L7:
@@ -92,40 +91,35 @@ ordenar:
 	add	fp, sp, #4
 	sub	sp, sp, #16
 	mov	r3, #0
-	str	r3, [fp, #-8]
+	str	r3, [fp, #-8]	@Guarda el contador i del primer ciclo
 	b	.L10
 
 .L14:
 	ldr	r3, [fp, #-8]
 	add	r3, r3, #1
-	str	r3, [fp, #-12]
+	str	r3, [fp, #-12]	@Guarda el contador j del ciclo 2
 	b	.L11
 
-.L13:
-	ldr	r2, .L15
-	ldr	r3, [fp, #-8]
-	ldr	r2, [r2, r3, lsl #2]
-	ldr	r1, .L15
-	ldr	r3, [fp, #-12]
-	ldr	r3, [r1, r3, lsl #2]
+.L13:	@Segundo ciclo
+	ldr	r1, .L15		@Carga el arreglo
+	ldr	r3, [fp, #-8]		@Carga i
+	ldr	r2, [r1, r3, lsl #2]	@Obtiene del arreglo la posicion i
+	ldr	r3, [fp, #-12]		@Carga j
+	ldr	r3, [r1, r3, lsl #2]	@Obtiene posicion de j
 	cmp	r2, r3
-	ble	.L12
-	ldr	r2, .L15
+	ble	.L12			@Aumenta j
 	ldr	r3, [fp, #-8]
-	ldr	r3, [r2, r3, lsl #2]
+	ldr	r3, [r1, r3, lsl #2]
 	str	r3, [fp, #-16]
-	ldr	r2, .L15
 	ldr	r3, [fp, #-12]
-	ldr	r2, [r2, r3, lsl #2]
-	ldr	r1, .L15
+	ldr	r2, [r1, r3, lsl #2]
 	ldr	r3, [fp, #-8]
 	str	r2, [r1, r3, lsl #2]
-	ldr	r1, .L15
 	ldr	r3, [fp, #-12]
 	ldr	r2, [fp, #-16]
 	str	r2, [r1, r3, lsl #2]
 
-.L12:
+.L12:	@Aumenta contador j
 	ldr	r3, [fp, #-12]
 	add	r3, r3, #1
 	str	r3, [fp, #-12]
@@ -136,15 +130,14 @@ ordenar:
 	blt	.L13
 	ldr	r2, .L15
 	ldr	r3, [fp, #-8]
-	ldr	r3, [r2, r3, lsl #2]
-	mov	r1, r3
+	add	r4, r3, #1
+	str	r4, [fp, #-8]
+	ldr	r1, [r2, r3, lsl #2]
+	@mov	r1, r3
 	ldr	r0, .L15+4
 	bl	printf
-	ldr	r3, [fp, #-8]
-	add	r3, r3, #1
-	str	r3, [fp, #-8]
 
-.L10:
+.L10:	@Primer ciclo
 	ldr	r3, [fp, #-8]
 	cmp	r3, #2048
 	blt	.L14
