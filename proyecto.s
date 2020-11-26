@@ -105,26 +105,10 @@ ordenar:
 	ldr	r3, [fp, #-12]		@Carga j
 	ldr	r4, [r1, r2, lsl #2]	@Carga valor en posicion i
 	ldr	r5, [r1, r3, lsl #2]	@Carga valor en posicion j
-	cmp	r4, r5
+	cmp	r4, r5			@ i > j
 	ble	.L12
-
-	@ldr	r1, .L15		@Carga el arreglo
-	@ldr	r3, [fp, #-8]		@Carga i
-	@ldr	r2, [r1, r3, lsl #2]	@Obtiene del arreglo la posicion i
-	@ldr	r3, [fp, #-12]		@Carga j
-	@ldr	r3, [r1, r3, lsl #2]	@Obtiene posicion de j
-	@cmp	r2, r3
-	@ble	.L12			@Aumenta j
-	@ldr	r3, [fp, #-8]
-	@ldr	r3, [r1, r3, lsl #2]
-	@str	r3, [fp, #-16]
-	@ldr	r3, [fp, #-12]
-	@ldr	r2, [r1, r3, lsl #2]
-	@ldr	r3, [fp, #-8]
-	@str	r2, [r1, r3, lsl #2]
-	@ldr	r3, [fp, #-12]
-	@ldr	r2, [fp, #-16]
-	@str	r2, [r1, r3, lsl #2]
+	str	r5, [r1, r2, lsl #2]	@Guarda lo que en posicion i lo de j
+	str	r4, [r1, r3, lsl #2]	@Guarda lo que esta en j en i
 
 .L12:	@Aumenta contador j
 	ldr	r3, [fp, #-12]
