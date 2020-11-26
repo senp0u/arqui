@@ -57,13 +57,12 @@ leerArchivo:
 	blt	.L4
 	ldr	r0, [fp, #-20]
 	bl	fclose
-	ldr	r3, [fp, #-24]
-	cmp	r3, #0
-	beq	.L6		@Libera el puntero a la linea
 	ldr	r0, [fp, #-24]
-	bl	free
+	cmp	r0, #0
+	beq	.L6		@Termina el programa
+	bl	free		@Libera memoria
 
-.L6:
+.L6:	@Elimina el metodo de memoria
 	nop
 	sub	sp, fp, #8
 	pop	{r4, fp, pc}
@@ -133,21 +132,16 @@ ordenar:
 	add	r4, r3, #1
 	str	r4, [fp, #-8]
 	ldr	r1, [r2, r3, lsl #2]
-	@mov	r1, r3
-	ldr	r0, .L15+4
+	ldr	r0, .L15+4		@Carga "%d"
 	bl	printf
 
 .L10:	@Primer ciclo
 	ldr	r3, [fp, #-8]
 	cmp	r3, #2048
 	blt	.L14
-	nop
+	nop			@Libera el metodo de memoria
 	sub	sp, fp, #4
-	@ sp needed
 	pop	{fp, pc}
-
-.L16:
-	.align	2
 
 .L15:
 	.word	numbers
