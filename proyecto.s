@@ -59,7 +59,7 @@ leerArchivo:
 	bl	fclose
 	ldr	r0, [fp, #-24]
 	cmp	r0, #0
-	beq	.L6		@Termina el programa
+	beq	.L6		@Termina el metodo
 	bl	free		@Libera memoria
 
 .L6:	@Elimina el metodo de memoria
@@ -119,11 +119,11 @@ ordenar:
 	ldr	r3, [fp, #-12]
 	cmp	r3, #2048
 	blt	.L13
-	ldr	r2, .L15
-	ldr	r3, [fp, #-8]
+	ldr	r2, .L15		@Carga arreglo
+	ldr	r3, [fp, #-8]		@Carga i
 	add	r4, r3, #1
-	str	r4, [fp, #-8]
-	ldr	r1, [r2, r3, lsl #2]
+	str	r4, [fp, #-8]		@i++
+	ldr	r1, [r2, r3, lsl #2]	@Carga el numero en i-1
 	ldr	r0, .L15+4		@Carga "%d"
 	bl	printf
 
